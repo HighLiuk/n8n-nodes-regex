@@ -127,10 +127,13 @@ export class Regex implements INodeType {
 			// If 'g' is selected, repeatedly exec
 			if (flagsString.includes('g')) {
 				let execArray: RegExpExecArray | null;
+				let matchIndex = 0;
 				while ((execArray = regex.exec(text)) !== null) {
 					returnItems.push({
 						json: buildMatchOutput(execArray, keepFullMatch),
+						pairedItem: { item: itemIndex, input: matchIndex },
 					});
+					matchIndex++;
 				}
 			} else {
 				// Single match
@@ -138,6 +141,7 @@ export class Regex implements INodeType {
 				if (execArray) {
 					returnItems.push({
 						json: buildMatchOutput(execArray, keepFullMatch),
+						pairedItem: { item: itemIndex },
 					});
 				}
 			}
